@@ -1,8 +1,8 @@
 import catchAync from '../utils/catch.js'
-// import Course from '../models/courseModel.js'
+import {Course} from '../models/courseModel.js'
 
 const createCourse = catchAync(async(req,resp,next)=>{
-   // const course = await Course.create(req.body)
+   const course = await Course.create(req.body)
    resp.status(201).json({
       status: 'success',
       data: {
@@ -12,9 +12,14 @@ const createCourse = catchAync(async(req,resp,next)=>{
 });
 
 const getAllCourses = catchAync(async(req,resp,next)=>{
-    resp.status(201).json({
-     message: "All courses" 
-    })
+   const courses = await Course.find()
+   resp.status(201).json({
+      status: 'success',
+      results: courses.length,
+      data: {
+         course: courses
+      }
+   })
  });
 
  const getCourse = catchAync(async(req,resp,next)=>{

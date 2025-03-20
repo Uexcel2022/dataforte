@@ -1,7 +1,7 @@
 import validator from 'validator';
-import { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
-export const  baseSchema = new Schema({
+const  baseSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true,'Please provide your name.'],
@@ -90,9 +90,34 @@ export const  baseSchema = new Schema({
     
     createdAt: {
         type: Date,
-        default: Date.now()
+        select: false
+    },
+
+    updatedAt: {
+        type: Date,
+        select: false
     },
 
     passwordChangedAt: Date,
     passwordResetToken: String,
+}, 
+{discriminatorKey: 'Kind'})
+
+baseSchema.pre('save', async function(next){
+    if(!this.isModified('password')||this.isNew) return next();
+    this.passwordChangedAt = Date.now() - 1000;
+    this.confirmPassword = undefined;
+    next();
 })
+
+baseSchema.pre('save', async function(next){
+    if(this.isNew){
+        this.confirmPassword = undefined;
+        this.createdAt = Date.now();
+    }
+    next();
+})
+
+const BaseModel = mongoose.model('Dataforte-Documents',baseSchema);
+
+export {BaseModel}

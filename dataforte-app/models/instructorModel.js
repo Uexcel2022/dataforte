@@ -19,7 +19,10 @@ const instructorSchema = mongoose.Schema({
 
     createdAt: {
         type: Date,
-        default: Date.now()
+    },
+
+    createdAt: {
+        type: Date,
     },
 })
 

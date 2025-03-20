@@ -5,8 +5,8 @@ import courseRouter from './routes/couseRouter.js'
 import instructorRouter from './routes/instructorRouter.js'
 import employeeRouter from './routes/employeeRouter.js'
 import globalErrorHandler from './controller/errorController.js'
-import dotenv from 'dotenv';
-dotenv.config({path:'./config.env'});
+// import dotenv from 'dotenv';
+// dotenv.config({path:'./config.env'});
 
 const app = express();
 app.use(bodyParser.json());
