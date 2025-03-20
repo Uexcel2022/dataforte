@@ -1,0 +1,24 @@
+{
+  "name": "dataforte-app",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "set NODE_ENV=production && node --watch server.js",
+    "start:prod": "set NODE_ENV=production && node --watch server.js"
+  },
+  "keywords": [],
+  "author": "uexel",
+  "license": "ISC",
+  "description": "learning nodejs",
+  "type": "module",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "dataforte-app": "file:",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "joi": "^17.13.3",
+    "mongoose": "^8.12.1",
+    "validator": "^13.12.0"
+  }
+}
