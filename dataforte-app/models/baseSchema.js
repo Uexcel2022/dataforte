@@ -88,8 +88,6 @@ const  baseSchema = new mongoose.Schema({
         select: false
     },
 
-    passwordChangedAt: Date,
-    passwordResetToken: String,
 }, 
 {discriminatorKey: 'Kind'});
 

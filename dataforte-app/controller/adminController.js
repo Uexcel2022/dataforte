@@ -48,7 +48,8 @@ const getAllAdins = catchAync(async(req,resp,next)=>{
       updatedAt,updatedBy
    }
 
-    const updatedAdmin = await Admin.findByIdAndUpdate(req.params.id,updatedValues,{new: true, runValidators: true});
+    const updatedAdmin = 
+    await Admin.findByIdAndUpdate(req.params.id,updatedValues,{new: true, runValidators: true});
     
     if(!updatedAdmin){
        return next(new AppError('No admin found with that ID',404))
@@ -75,16 +76,16 @@ const getAllAdins = catchAync(async(req,resp,next)=>{
    const id = req.user? req.user.id : req.params.id
 
    if(newPassword !== confirmPassword){
-      throw next(new AppError('Passwords are not the same!',400));
+      return next(new AppError('Passwords are not the same!',400));
    }
    const admin = await Admin.findById(id).select('+password')
 
    if(!admin){
-      throw next(new AppError('Admin not found with that ID!',400));
+      return next(new AppError('Admin not found with that ID!',400));
    }
 
    if(!await admin.correctPassword(oldPassword, admin.password)){
-      throw next(new AppError('Invalid password!',400));
+      return next(new AppError('Invalid password!',400));
    }
 
    const updatedValues = {
@@ -94,6 +95,7 @@ const getAllAdins = catchAync(async(req,resp,next)=>{
    admin.updatedAt = updatedValues.updatedAt
    admin.updatedBy = updatedValues.updatedBy
    admin.confirmPassword = updatedValues.confirmPassword;
+   admin.passwordChangedAt = Date.now();
    admin.save();
 
     resp.status(200).json({
@@ -104,11 +106,23 @@ const getAllAdins = catchAync(async(req,resp,next)=>{
 
 
  const deleteAdmin = catchAync(async(req,resp,next)=>{
-    resp.status(201).json({
-     message: "course deleted successfully" 
+
+   const toDeletAdmin = 
+   await Admin.findByIdAndUpdate(req.params.id,{active: false}).select('+active')
+   
+   if(!toDeletAdmin){
+      return next(new AppError('Admin not found with that ID!',400));
+   }
+    resp.status(200).json({
+      status: 'success',
+      message: "Admin deativated successfully" 
     })
  })
 
 
-export default {createAdmin,getAllAdins,getAdmin: getAdmin,updateAdmin,deleteAdmin,updateAdminPassword}
+export  {
+   createAdmin,getAllAdins,
+   getAdmin,updateAdmin,
+   deleteAdmin,updateAdminPassword
+}
 

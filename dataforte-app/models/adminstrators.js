@@ -47,6 +47,12 @@ const adminSchema = new mongoose.Schema({
         },
         default: 'admin'
     },
+    active: {
+        type: Boolean,
+        default: true
+    },
+    passwordChangedAt: Date,
+    passwordResetToken: String,
 })
 
 adminSchema.pre('save',async function(next){
@@ -59,6 +65,11 @@ adminSchema.pre('save',async function(next){
 adminSchema.methods.correctPassword = async function(candidatePassword,userPassword){
     return await bcrypt.compare(candidatePassword,userPassword)
 }
+
+adminSchema.pre(/^find/, function(next){
+    this.find({active:{$ne:false}}).select('-__v')
+    next();
+})
 
 
 const Admin = BaseModel.discriminator("Admin", adminSchema);
