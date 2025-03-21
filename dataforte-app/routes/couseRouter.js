@@ -1,16 +1,16 @@
 import courseController from "../controller/courseController.js";
 import express from 'express'
-const router = express.Router();
+const courseRouter = express.Router();
 
-router.route('/')
+courseRouter.route('/')
 .post(courseController.createCourse)
 .get(courseController.getAllCourses);
 
 
-router.route('/:id')
+courseRouter.route('/:id')
 .get(courseController.getCourse)
 .patch(courseController.updateCourse)
 .delete(courseController.deleteCourse);
 
 
-export default router;
+export {courseRouter};

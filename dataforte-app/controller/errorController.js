@@ -24,6 +24,10 @@ function errorHandler(error,req,resp,next){
       error = new AppError(message,400)
     }
 
+    if(error.name==='JsonWebTokenError'){
+      error = new AppError('The token is invalid. Please login again',401)
+    }
+
 
     if(process.env.NODE_ENV==='development'){
       if(error.isOperational){

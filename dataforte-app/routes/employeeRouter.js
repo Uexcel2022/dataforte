@@ -1,18 +1,18 @@
 import employeeController from '../controller/employeeController.js'
 import express from 'express'
 import {adminRouter} from './adminRouter.js'
-const router = express.Router();
+const employeeRouter = express.Router();
 
-router.use('/admin', adminRouter);
+employeeRouter.use('/admin', adminRouter);
 
-router.route('/')
+employeeRouter.route('/')
 .post(employeeController.createEmployee)
 .get(employeeController.getAllEmployees);
 
 
-router.route('/:id')
+employeeRouter.route('/:id')
 .get(employeeController.getEmployee)
 .patch(employeeController.updateEmployee)
 .delete(employeeController.deleteEmployee);
 
-export default router
+export {employeeRouter}

@@ -43,7 +43,7 @@ const adminSchema = new mongoose.Schema({
     role:{
         type: String,
         enum:{
-            values : ['admin','mgr']
+            values : ['admin','mgr','super-admin']
         },
         default: 'admin'
     },
@@ -51,7 +51,10 @@ const adminSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    passwordChangedAt: Date,
+    passwordChangedAt:{
+        type: Date,
+        select: false
+    },
     passwordResetToken: String,
 })
 
@@ -70,6 +73,14 @@ adminSchema.pre(/^find/, function(next){
     this.find({active:{$ne:false}}).select('-__v')
     next();
 })
+
+adminSchema.methods.checkPasswordChange= async function(tokenIssueDt){
+    if(this.passwordChangedAt){
+        const pwdChgDt = parseInt(this.passwordChangedAt.getTime()/1000,10)
+        return tokenIssueDt <  pwdChgDt
+    }
+    return false;
+}
 
 
 const Admin = BaseModel.discriminator("Admin", adminSchema);

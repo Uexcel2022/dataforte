@@ -14,7 +14,7 @@ const createAdmin = catchAync(async(req,resp,next)=>{
 
 const getAllAdins = catchAync(async(req,resp,next)=>{
    const admins = await Admin.find()
-   resp.status(201).json({
+   resp.status(200).json({
       status: 'success',
       results: admins.length,
       data: {
@@ -28,7 +28,20 @@ const getAllAdins = catchAync(async(req,resp,next)=>{
    if(!admin){
       return next(new AppError('No admin found with that ID',404))
    }
-   resp.status(201).json({
+   resp.status(200).json({
+      status: 'success',
+      data: {
+         admin
+      }
+   })
+ });
+
+ const getMe = catchAync(async(req,resp,next)=>{
+   const admin = await Admin.findById(req.admin._id).select('-role')
+   if(!admin){
+      return next(new AppError('No admin found with that ID',404))
+   }
+   resp.status(200).json({
       status: 'success',
       data: {
          admin
@@ -69,11 +82,11 @@ const getAllAdins = catchAync(async(req,resp,next)=>{
 
    const {oldPassword, newPassword, confirmPassword, updatedAt,updatedBy} = req.body;
 
-   if(!req.params.id && !req.user){
+   if(!req.params.id && !req.admin){
       return next(new AppError('Expected ID value not present!',400));
    }
 
-   const id = req.user? req.user.id : req.params.id
+   const id = req.params.id ? req.params.id : req.admin._id 
 
    if(newPassword !== confirmPassword){
       return next(new AppError('Passwords are not the same!',400));
@@ -84,8 +97,10 @@ const getAllAdins = catchAync(async(req,resp,next)=>{
       return next(new AppError('Admin not found with that ID!',400));
    }
 
-   if(!await admin.correctPassword(oldPassword, admin.password)){
-      return next(new AppError('Invalid password!',400));
+   if(!req.params.id){
+      if(!await admin.correctPassword(oldPassword, admin.password)){
+         return next(new AppError('Invalid password!',400));
+      }
    }
 
    const updatedValues = {
@@ -122,7 +137,7 @@ const getAllAdins = catchAync(async(req,resp,next)=>{
 
 export  {
    createAdmin,getAllAdins,
-   getAdmin,updateAdmin,
+   getAdmin,updateAdmin,getMe,
    deleteAdmin,updateAdminPassword
 }
 

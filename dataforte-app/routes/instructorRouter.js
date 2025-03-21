@@ -1,15 +1,15 @@
 import instructorController from '../controller/instructorController.js'
 import express from 'express'
-const router = express.Router();
+const instructorRouter = express.Router();
 
-router.route('/')
+instructorRouter.route('/')
 .post(instructorController.createInstructor)
 .get(instructorController.getAllInstructors);
 
 
-router.route('/:id')
+instructorRouter.route('/:id')
 .get(instructorController.getInstructor)
 .patch(instructorController.updateInstructor)
 .delete(instructorController.deleteInstructor);
 
-export default router
+export {instructorRouter}
