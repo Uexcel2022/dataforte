@@ -10,8 +10,8 @@ const  employeeSchema = new mongoose.Schema({
         lowercase: true,
         required: [true, 'Provide postion'],
         enum: {
-            values: ['instructor','supervisor','security','chief security','lead instructor'],
-            message: 'Position must be manager, instructor, supervisor,security, chief security, or lead instructor'
+            values: ['instructor','cansellor','supervisor','security','chief security','lead instructor'],
+            message: 'Position must be instructor,cansellor, supervisor,security, chief security, or lead instructor'
         }
     },
 
@@ -21,6 +21,11 @@ const  employeeSchema = new mongoose.Schema({
         min: [70000, 'Salary must not be less than 70000']
     },
     
+})
+
+employeeSchema.pre(/find/, async function(next){
+    this.find().select('-__v');
+    next();
 })
 
 
