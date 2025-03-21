@@ -24,7 +24,13 @@ const instructorSchema = mongoose.Schema({
     createdAt: {
         type: Date,
     },
+    
+})
+
+instructorSchema.pre(/^find/,function(next){
+    this.find().select('-__v')
 })
 
 
-export default mongoose.model('Instructor', instructorSchema);
+const Instructor = mongoose.model('Instructor', instructorSchema);
+export {Instructor}

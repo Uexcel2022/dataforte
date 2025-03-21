@@ -47,10 +47,7 @@ const adminSchema = new mongoose.Schema({
         },
         default: 'admin'
     },
-    active: {
-        type: Boolean,
-        default: true
-    },
+  
     passwordChangedAt:{
         type: Date,
         select: false

@@ -21,17 +21,36 @@ const courseSchema = new mongoose.Schema({
         }
     },
 
-    salary: {
+    price: {
         type: Number,
         trim: true,
         required: [true, "Pleas provide course price."],
         min: [35000, 'Price must not be less than 35000']
     },
 
-    createdAt: {
+      createdAt: {
         type: Date,
+        select: false
+    },
+    createdBy: {
+        type: String,
+        select: false
+    },
+
+    updatedAt: {
+        type: Date,
+        select: false
+    },
+    updatedBy: {
+        type: String,
+        select: false
     },
     
+})
+
+courseSchema.pre(/^find/,function(next){
+    this.find().select('-__v')
+    next();
 })
 
 const Course = mongoose.model('Course', courseSchema);

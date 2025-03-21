@@ -13,7 +13,7 @@ const createCourse = catchAync(async(req,resp,next)=>{
 
 const getAllCourses = catchAync(async(req,resp,next)=>{
    const courses = await Course.find()
-   resp.status(201).json({
+   resp.status(200).json({
       status: 'success',
       results: courses.length,
       data: {
@@ -23,13 +23,13 @@ const getAllCourses = catchAync(async(req,resp,next)=>{
  });
 
  const getCourse = catchAync(async(req,resp,next)=>{
-    resp.status(201).json({
+    resp.status(200).json({
      message: "A course" 
     })
  });
 
  const updateCourse = catchAync(async(req,resp,next)=>{
-    resp.status(201).json({
+    resp.status(200).json({
      message: "course updated successfully" 
     })
  });

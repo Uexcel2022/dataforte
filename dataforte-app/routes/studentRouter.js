@@ -1,16 +1,23 @@
-import studentController from "../controller/studentController.js";
+import {assignStudentToCourse,createStudent,
+    delateStudent,getAllStudents,getStudent,removeCourse
+    ,updatetudent} from "../controller/studentController.js";
+import {createdAt,updatedAt} from "../middleware/audit.js";
+import {protect,restrictTo} from '../controller/authController.js'
 
 import express from 'express';
 
 const studentRouter = express.Router();
-
+studentRouter.use(protect,restrictTo('admin','super-admin'))
 studentRouter.route('/')
-.post(studentController.createStudent)
-.get(studentController.getAllStudents)
+.post(createdAt,createStudent)
+.get(getAllStudents)
 
 studentRouter.route('/:id')
-.get(studentController.getStudent)
-.patch(studentController.updatetudent)
-.delete(studentController.delateStudent);
+.get(getStudent)
+.patch(updatedAt,updatetudent)
+.delete(delateStudent)
+.put(updatedAt,assignStudentToCourse)
+
+studentRouter.put('/:id/removeCourses',removeCourse);
 
 export {studentRouter}

@@ -1,5 +1,5 @@
 import catchAsync from "../utils/catch.js"
-import Instructor from '../models/instructorModel.js'
+import {Instructor} from '../models/instructorModel.js'
 
 const createInstructor = catchAsync( async (req,resp,next) => {
     const instructor = await Instructor.create(req.body)

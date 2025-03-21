@@ -24,10 +24,19 @@ const studentSchema = new mongoose.Schema({
         }
     ],
     
-    stacK: {
+    stack: {
         type: String,
         lowercase: true,
         trim: true,
+    },
+
+    lectureStatus: {
+        type: String,
+        default: 'not started',
+        enum: {
+            values: ['not started','pause','in progress','completed'],
+            message: 'Options: not started, pause in progress, completed'
+        }
     },
 })
 
@@ -38,11 +47,10 @@ const studentSchema = new mongoose.Schema({
 //     next();
 // })
 
-// studentSchema.pre('save', async function(next){
-//     if(!this.isModified('password')) return next();
-//     this.confirmPassword = undefined;
-//     next();
-// })
+studentSchema.pre(/find/, async function(next){
+    this.find().select('-__v');
+    next();
+})
 
 
 const Student = BaseModel.discriminator('Student',studentSchema)

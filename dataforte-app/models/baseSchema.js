@@ -87,7 +87,10 @@ const  baseSchema = new mongoose.Schema({
         type: String,
         select: false
     },
-
+    active: {
+        type: Boolean,
+        default: true
+    }
 }, 
 {discriminatorKey: 'Kind'});
 
