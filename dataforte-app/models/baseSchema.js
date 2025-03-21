@@ -27,6 +27,7 @@ const  baseSchema = new mongoose.Schema({
     phoneNumber: {
         type: String,
         required: [true,'Please provide your phone number.'],
+        unique: [true, 'The phone number has been used. Please provide another phone number.'],
         validate: {
             validator: function (v) {
                 return /^0[7-9][10][0-9]{8}$/.test(v);
@@ -35,25 +36,6 @@ const  baseSchema = new mongoose.Schema({
         }
     },
 
-    password: {
-        type: String,
-        required: [true,'Please provide a password.'],
-        minlength: [8,'Password must be at least 8 characters.'],
-        maxlength: [16,'Password must not exceed 16 characters.'],
-        validate: [validator.isStrongPassword, 'Please a password having digits, special characters upper and lower case.'],
-        select: false
-    },
-
-    confirmPassword: {
-        type: String,
-        required: [true,'Please confirm your password.'],
-        validate: {
-            validator: function (v) {
-                return v === this.password;
-            },
-            message: 'Passwords are not the same.'
-        }
-    },
     gender:{
         type: String,
         required: [true,'Please provide your gender.'],
@@ -92,31 +74,24 @@ const  baseSchema = new mongoose.Schema({
         type: Date,
         select: false
     },
+    createdBy: {
+        type: String,
+        select: false
+    },
 
     updatedAt: {
         type: Date,
+        select: false
+    },
+    updatedBy: {
+        type: String,
         select: false
     },
 
     passwordChangedAt: Date,
     passwordResetToken: String,
 }, 
-{discriminatorKey: 'Kind'})
-
-baseSchema.pre('save', async function(next){
-    if(!this.isModified('password')||this.isNew) return next();
-    this.passwordChangedAt = Date.now() - 1000;
-    this.confirmPassword = undefined;
-    next();
-})
-
-baseSchema.pre('save', async function(next){
-    if(this.isNew){
-        this.confirmPassword = undefined;
-        this.createdAt = Date.now();
-    }
-    next();
-})
+{discriminatorKey: 'Kind'});
 
 const BaseModel = mongoose.model('Dataforte-Documents',baseSchema);
 

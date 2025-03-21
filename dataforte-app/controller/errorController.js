@@ -1,3 +1,4 @@
+import AppError from "../utils/AppError.js";
 
 function errorHandler(error,req,resp,next){
     error.statusCode = error.statusCode||500
@@ -9,17 +10,52 @@ function errorHandler(error,req,resp,next){
     //   error.message = msg;
     // }
 
-    if(error.name=='ValidationError'){
-      const msg =  Object.values(error.errors).map(el=>el.message);
-      error.message = msg;
+    if(error.name==='ValidationError'){
+      const msg =  Object.values(error.errors).map(el=>el.message).join(', ')
+      error = new AppError(`Invalid data: ${msg}`,400)
     }
 
-    resp.status(error.statusCode).json({
-        status : error.status,
-        message: error.message,
+    if(error.name==='MongooseError'){
+      error = new AppError(error.message,400)
+    }
+
+    if(error.name==='CastError'){
+      const message = `Invalid ${error.path}: ${error.value}.`
+      error = new AppError(message,400)
+    }
+
+
+    if(process.env.NODE_ENV==='development'){
+      if(error.isOperational){
+        resp.status(error.statusCode).json({
+            status : error.status,
+            message: error.message,
+            error,
+            stack : error.stack
+        })
+    }else{
+      resp.status(500).json({
+        status : 'error',
+        message: 'Some went wrong',
         error,
         stack : error.stack
-    })
+      })
+    }
+  }else{
+    if(process.env.NODE_ENV==='production'){
+      if(error.isOperational){
+        resp.status(error.statusCode).json({
+            status : error.status,
+            message: error.message,
+        })
+    }else{
+        resp.status(500).json({
+          status : 'error',
+          message: 'Some went wrong!'
+        })
+      }
+    }
+  }
 }
 
 export default errorHandler;

@@ -29,18 +29,6 @@ const studentSchema = new mongoose.Schema({
         lowercase: true,
         trim: true,
     },
-
-    role:{
-        type: String,
-        lowercase: true,
-        default: 'student',
-        enum: {
-            type: String,
-            values: ['student'],
-            message: 'Only student is permitted'
-        }
-    },
-
 })
 
 // studentSchema.pre('save', async function(next){
