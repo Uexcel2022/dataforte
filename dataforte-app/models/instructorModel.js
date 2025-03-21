@@ -9,7 +9,7 @@ const instructorSchema = mongoose.Schema({
         require: [true, 'Please provide instruction ID']
     },
     
-    course: [
+    courses: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Course',
@@ -19,16 +19,31 @@ const instructorSchema = mongoose.Schema({
 
     createdAt: {
         type: Date,
+        select: false
+    },
+    createdBy: {
+        type: String,
+        select: false
     },
 
-    createdAt: {
+    updatedAt: {
         type: Date,
+        select: false
     },
+    updatedBy: {
+        type: String,
+        select: false
+    },
+    active: {
+        type: Boolean,
+        default: true
+    }
     
 })
 
 instructorSchema.pre(/^find/,function(next){
     this.find().select('-__v')
+    next();
 })
 
 

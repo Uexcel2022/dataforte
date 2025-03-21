@@ -61,6 +61,7 @@ const updateEmployee = catchAsync( async (req,resp,next) => {
          })
       });
 
+      
 const deleteEmployee = catchAsync( async (req,resp,next) => {
     const emp = await Employee.findByIdAndDelete(req.params.id)
     if(!emp){

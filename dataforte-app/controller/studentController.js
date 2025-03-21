@@ -66,9 +66,15 @@ const updatetudent =  catchAsync(async(req,resp,next)=>{
   });
 
   const assignStudentToCourse = catchAsync(async(req,resp,next)=>{
-    const student = await Student.findByIdAndUpdate(req.params.id,{$addToSet: req.body},{new: true})
+    const updatedAt = req.body.updatedAt;
+    const updatedBy = req.body.updatedBy
+    req.body.updatedBy = undefined;
+    req.body.updatedAt = undefined;
+    const student = 
+    await Student.findByIdAndUpdate(req.params.id,{$addToSet: req.body,updatedAt,updatedBy},{new: true})
+
     if(!student){
-        return next(new AppError('No student found with that ID',404))
+        return navigator('No instructor with the ID',404)
     }
     resp.status(200).json({
         status: 'success',
