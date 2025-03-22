@@ -1,7 +1,7 @@
 import express from 'express'
 import {studentRouter} from './routes/studentRouter.js'
 import {courseRouter} from './routes/couseRouter.js'
-import {instructorRouter} from './routes/instructorRouter.js'
+import {classRouter} from './routes/classRouter.js'
 import {employeeRouter} from './routes/employeeRouter.js'
 import globalErrorHandler from './controller/errorController.js'
 import helmet from 'helmet'
@@ -35,7 +35,7 @@ app.use(hpp({
 
 app.use('/api/v1/students',studentRouter);
 app.use('/api/v1/courses',courseRouter);
-app.use('/api/v1/instructors',instructorRouter);
+app.use('/api/v1/classes',classRouter);
 app.use('/api/v1/employees',employeeRouter);
 
 app.use(globalErrorHandler)

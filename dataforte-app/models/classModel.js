@@ -47,5 +47,5 @@ instructorSchema.pre(/^find/,function(next){
 })
 
 
-const Instructor = mongoose.model('Instructor', instructorSchema);
-export {Instructor}
+const Class = mongoose.model('Class', instructorSchema);
+export {Class}
