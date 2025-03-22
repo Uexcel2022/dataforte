@@ -1,4 +1,4 @@
-import {createInstructor,deleteInstructor,
+import {createInstructor,deleteInstructor,changeInstructor,
     getAllInstructors,getInstructor,assginCourseToInstructor,removeInstCourse} 
     from '../controller/instructorController.js'
 import {protect,restrictTo} from '../controller/authController.js'
@@ -19,5 +19,7 @@ instructorRouter.route('/:id')
 .patch(updatedAt,assginCourseToInstructor)
 .delete(deleteInstructor)
 .put(updatedAt,removeInstCourse);
+
+instructorRouter.patch('/:id/change-ins',changeInstructor);
 
 export {instructorRouter}

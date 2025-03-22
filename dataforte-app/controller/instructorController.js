@@ -41,6 +41,20 @@ const removeInstCourse = catchAsync(async(req,resp,next)=>{
     })
 })
 
+const changeInstructor = catchAsync(async(req,res, next)=>{
+    const updatedInst = 
+    await Instructor.findByIdAndUpdate(req.params.id,req.body);
+    if(!updatedInst){
+        return next(new AppError('No document found with that ID',404))
+    }
+    res.status(204).json({
+        status: 'success',
+        data: {
+            updatedInst: null
+        }
+    })
+})
+
 const createInstructor = createOne(Instructor);
 const getAllInstructors = findMany(Instructor)
 const getInstructor = findOne(Instructor)
@@ -49,5 +63,5 @@ const deleteInstructor = deleteOne(Instructor)
 
 export {createInstructor,getAllInstructors,
     getInstructor,assginCourseToInstructor,
-    deleteInstructor,removeInstCourse
+    deleteInstructor,removeInstCourse,changeInstructor
 }

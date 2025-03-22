@@ -55,7 +55,7 @@ const findMany = Model => catchAsync(async(req,res,next)=>{
 
 const findOne = Model => catchAsync(async(req,res,next)=>{
     const doc = await Model.findById(req.params.id)
-    .populate({path: 'courses', strictPopulate:false})
+    .populate({path: 'courses instructor', strictPopulate:false, select: 'name courseName'});
     
     if(!doc){
         return next(new AppError('No document found with that ID',404))
