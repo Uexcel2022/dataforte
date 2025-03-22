@@ -1,5 +1,5 @@
 import {createEmployee,deleteEmployee,
-    getAllEmployees,getEmployee,updateEmployee,} 
+    getAllEmployees,getEmployee,updateEmployee,nameSearch} 
     from '../controller/employeeController.js'
 
 import {protect,restrictTo} from '../controller/authController.js'
@@ -19,5 +19,8 @@ employeeRouter.route('/')
 
 employeeRouter.route('/:id').get(getEmployee)
 .patch(updatedAt,updateEmployee).delete(deleteEmployee);
+
+employeeRouter.post('/search',nameSearch)
+
 
 export {employeeRouter}

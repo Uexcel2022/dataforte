@@ -1,41 +1,8 @@
 import catchAsync from "../utils/catch.js"
 import {Instructor} from '../models/instructorModel.js'
 import AppError from "../utils/AppError.js"
-import { updatedAt } from "../middleware/audit.js"
+import {createOne, deleteOne, findMany, findOne} from './handleFactory.js'
 
-const createInstructor = catchAsync( async (req,resp,next) => {
-    const instructor = await Instructor.create(req.body)
-    resp.status(201).json({
-        status: 'success',
-        data: {
-            instructor
-        }
-    })
-})
-
-const getAllInstructors = catchAsync( async (req,resp,next) => {
-    const instructors = await Instructor.find();
-    resp.status(200).json({
-        status: 'success',
-        results: instructors.length,
-        data: {
-            instructors
-        }
-    })
-})
-
-const getInstructor = catchAsync( async (req,resp,next) => {
-    const instructor = await Instructor.findById(req.params.id).populate('courses')
-    if(!instructor){
-        return navigator('No instructor with the ID',404)
-    }
-    resp.status(200).json({
-        status: 'success',
-        data: {
-            instructor
-        }
-    })
-})
 
 const assginCourseToInstructor = catchAsync( async (req,resp,next) => {
     const updatedAt = req.body.updatedAt;
@@ -74,19 +41,10 @@ const removeInstCourse = catchAsync(async(req,resp,next)=>{
     })
 })
 
-const deleteInstructor = catchAsync( async (req,resp,next) => {
-    
-    const instructor = await Instructor.findByIdAndDelete(req.params.id)
-    if(!instructor){
-        return navigator('No instructor with the ID',404)
-    }
-    resp.status(204).json({
-        status: 'success',
-        data: {
-            instructor: null
-        }
-    })
-})
+const createInstructor = createOne(Instructor);
+const getAllInstructors = findMany(Instructor)
+const getInstructor = findOne(Instructor)
+const deleteInstructor = deleteOne(Instructor)
 
 
 export {createInstructor,getAllInstructors,

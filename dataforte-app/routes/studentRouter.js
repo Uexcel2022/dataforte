@@ -1,6 +1,6 @@
 import {assignStudentToCourse,createStudent,
     delateStudent,getAllStudents,getStudent,removeCourse
-    ,updatetudent} from "../controller/studentController.js";
+    ,updatetudent,nameSearch} from "../controller/studentController.js";
 import {createdAt,updatedAt} from "../middleware/audit.js";
 import {protect,restrictTo} from '../controller/authController.js'
 
@@ -19,5 +19,6 @@ studentRouter.route('/:id')
 .put(updatedAt,assignStudentToCourse)
 
 studentRouter.put('/:id/removeCourses',removeCourse);
+studentRouter.post('/search',nameSearch)
 
 export {studentRouter}

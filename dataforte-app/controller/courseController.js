@@ -1,43 +1,31 @@
 import catchAync from '../utils/catch.js'
 import {Course} from '../models/courseModel.js'
+import {search,findMany, findOne, createOne} from './handleFactory.js'
+import AppError from '../utils/AppError.js';
 
-const createCourse = catchAync(async(req,resp,next)=>{
-   const course = await Course.create(req.body)
-   resp.status(201).json({
-      status: 'success',
-      data: {
-         course
-      }
-   })
-});
 
-const getAllCourses = catchAync(async(req,resp,next)=>{
-   const courses = await Course.find()
-   resp.status(200).json({
-      status: 'success',
-      results: courses.length,
-      data: {
-         course: courses
-      }
-   })
- });
-
- const getCourse = catchAync(async(req,resp,next)=>{
-    resp.status(200).json({
-     message: "A course" 
-    })
- });
 
  const updateCourse = catchAync(async(req,resp,next)=>{
+   const course = await Course
+   .findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true});
+   if(!course){
+      return next(new AppError('No course found with that ID',404))
+   }
     resp.status(200).json({
-     message: "course updated successfully" 
+       status: 'success',
+       data:{
+         course
+       }
     })
  });
 
- const deleteCourse = catchAync(async(req,resp,next)=>{
-    resp.status(201).json({
-     message: "course deleted successfully" 
-    })
- });
+ const createCourse = createOne(Course)
+ const getAllCourses =  findMany(Course);
+ const searchName = search(Course);
+ const getCourse = findOne(Course)
 
-export default {createCourse,getAllCourses,getCourse,updateCourse,deleteCourse}
+
+export {
+   createCourse,getAllCourses,
+   getCourse,updateCourse,searchName
+}

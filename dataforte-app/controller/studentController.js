@@ -1,43 +1,8 @@
 import catchAsync from "../utils/catch.js"
 import AppError from '../utils/AppError.js'
 import {Student} from '../models/studentModel.js'
+import {search,findMany, createOne, findOne, deleteOne} from '../controller/handleFactory.js'
 
-
-const createStudent = catchAsync(async (req,resp,next)=>{
-   
-    const student = await Student.create(req.body);
-
-    resp.status(200).json({
-        status: 'success',
-        data : {
-            message: student
-        }
-    })
-})
-
-const getAllStudents = catchAsync(async (req,resp,next)=>{
-    const students = await Student.find()
-    resp.status(200).json({
-        status: "success",
-        results: students.length,
-        data: {
-            students
-        }
-    })
-})
-
-const getStudent = catchAsync(async(req,resp,next)=>{
-    const student = await Student.findById(req.params.id).populate('courses').select('-__v')
-    if(!student){
-        return next(new AppError('No student found with that ID',404))
-    }
-    resp.status(200).json({
-        status: 'success',
-        data: {
-            student
-        }
-    })
-})
 
 const updatetudent =  catchAsync(async(req,resp,next)=>{
     const {name, phoneNumber, country, 
@@ -102,18 +67,15 @@ const removeCourse = catchAsync(async(req,resp,next)=>{
     })
 })
 
-const delateStudent = catchAsync(async(req,resp,next)=>{
-    const student = await Student.findByIdAndDelete(req.params.id)
-    if(!student){
-        return next(new AppError('No student found with that ID',404))
-    }
-    resp.status(200).json({
-        message: "Student deleted successfully"
-    })
-})
 
+
+const createStudent = createOne(Student);
+const getStudent = findOne(Student)
+const nameSearch = search(Student);
+const getAllStudents = findMany(Student);
+const delateStudent = deleteOne(Student)
 
 export {
     createStudent,getAllStudents,getStudent,removeCourse,
-    updatetudent,delateStudent,assignStudentToCourse
+    updatetudent,delateStudent,assignStudentToCourse,nameSearch
 }

@@ -1,5 +1,4 @@
 import express from 'express'
-import bodyParser from 'body-parser'
 import {studentRouter} from './routes/studentRouter.js'
 import {courseRouter} from './routes/couseRouter.js'
 import {instructorRouter} from './routes/instructorRouter.js'

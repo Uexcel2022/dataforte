@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 const courseSchema = new mongoose.Schema({
     courseName: {
         type: String,
+        lowercase: true,
         required: [true,'Please provide course name.'],
         minlength: [3,'Name must be at least 3 characters.'],
         maxlength: [30,'Name must not exceed 30 characters.'],
@@ -14,6 +15,7 @@ const courseSchema = new mongoose.Schema({
     category: {
         type: String,
         trim: true,
+        lowercase: true,
         required: [true,'Please provide course category.'],
         enum: {
            values : ['software development', 'product managment', 'cyber security','data analysis'],

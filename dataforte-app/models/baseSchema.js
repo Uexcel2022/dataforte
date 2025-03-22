@@ -8,6 +8,7 @@ const  baseSchema = new mongoose.Schema({
         minlength: [3,'Name must be at least 3 characters.'],
         maxlength: [30,'Name must not exceed 30 characters.'],
         trim: true,
+        lowercase: true,
         validate: {
             validator: function (v) {
                 return /^[A-Za-z]+ [A-Za-z]+ ?[A-Za-z]*$/.test(v);
@@ -51,7 +52,8 @@ const  baseSchema = new mongoose.Schema({
         required: [true,'Please provide your address.'],
         trim: true,
         maxlength: [100,'Address must not exceed 100 characters.'],
-        minlength: [10,'Address must be at least 10 characters.']
+        minlength: [10,'Address must be at least 10 characters.'],
+        lowercase: true
     },
 
     state: {
@@ -59,7 +61,8 @@ const  baseSchema = new mongoose.Schema({
         required: [true,'Please provide your state.'],
         trim: true,
         maxlength: [30,'State must not exceed 30 characters.'],
-        minlength: [3,'State must be at least 3 characters.']
+        minlength: [3,'State must be at least 3 characters.'],
+        lowercase: true
     },
 
     country: {
@@ -67,7 +70,8 @@ const  baseSchema = new mongoose.Schema({
         required: [true,'Please provide your country.'],
         trim: true,
         maxlength: [30,'Country must not exceed 30 characters.'],
-        minlength: [3,'Country must be at least 3 characters.']
+        minlength: [3,'Country must be at least 3 characters.'],
+        lowercase: true
     },
     
     createdAt: {

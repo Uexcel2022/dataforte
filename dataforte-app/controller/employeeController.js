@@ -1,40 +1,11 @@
 import catchAsync from "../utils/catch.js"
 import {Employee} from '../models/employeeModel.js'
 import AppError from "../utils/AppError.js"
-import {ApIFeatures} from "../utils/features.js"
+import {search,findMany, createOne, findOne} from './handleFactory.js'
 
-const createEmployee = catchAsync( async (req,resp,next) => {
-    const employee = await Employee.create(req.body)
-    resp.status(201).json({
-        status: 'success',
-        data: {
-            employee
-        }
-    })
-})
 
-const getAllEmployees = catchAsync( async (req,resp,next) => {
-    const features = new ApIFeatures(Employee.find(),req.query)
-    .filter().sort().fields().paginition()
-    const employees = await features.query
-    resp.status(200).json({
-        status: 'success',
-        results: employees.length,
-        data: {
-            employees
-        }
-    })
-})
 
-const getEmployee = catchAsync( async (req,resp,next) => {
-    const employee = await Employee.findById(req.params.id);
-    resp.status(200).json({
-        status: 'success',
-        data: {
-            employee
-        }
-    })
-})
+
 
 const updateEmployee = catchAsync( async (req,resp,next) => {
 
@@ -76,5 +47,14 @@ const deleteEmployee = catchAsync( async (req,resp,next) => {
     })
 })
 
+const getEmployee = findOne(Employee)
+const createEmployee = createOne(Employee)
+const getAllEmployees = findMany(Employee);
+const nameSearch = search(Employee);
 
-export {createEmployee,getAllEmployees,getEmployee,updateEmployee,deleteEmployee}
+
+export {
+    createEmployee,getAllEmployees,
+    getEmployee,updateEmployee,
+    deleteEmployee,nameSearch
+}

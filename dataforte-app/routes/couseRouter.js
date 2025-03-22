@@ -1,16 +1,14 @@
-import courseController from "../controller/courseController.js";
+import {createCourse,getAllCourses,getCourse,searchName,
+    updateCourse} from "../controller/courseController.js";
 import express from 'express'
 const courseRouter = express.Router();
 
 courseRouter.route('/')
-.post(courseController.createCourse)
-.get(courseController.getAllCourses);
+.post(createCourse).get(getAllCourses);
 
+courseRouter.route('/:id').get(getCourse)
+.patch(updateCourse)
 
-courseRouter.route('/:id')
-.get(courseController.getCourse)
-.patch(courseController.updateCourse)
-.delete(courseController.deleteCourse);
-
+courseRouter.post('/search',searchName)
 
 export {courseRouter};
