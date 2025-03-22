@@ -1,6 +1,5 @@
-// import dotenv from 'dotenv';
-// dotenv.config({path:'./config.env'});
-
+import {config} from 'dotenv';
+config();
 import mongoose from 'mongoose'
 
 // mongoose.connect(process.env.DATABASE,{

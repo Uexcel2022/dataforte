@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "build": "npm install",
-    "dev": "node --watch --env-file=./config.env server.js",
+    "dev": "node --watch server.js",
     "start": "node server.js"
   },
   "keywords": [],
