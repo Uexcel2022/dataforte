@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "node --watch --env-file=./config.env server.js",
     "start:prod": "node server.js",
-    "start:b": "npm install"
+    "start:b": "npm build"
   },
   "keywords": [],
   "author": "uexel",
