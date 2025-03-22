@@ -28,6 +28,10 @@ function errorHandler(error,req,resp,next){
       error = new AppError('The token is invalid. Please login again',401)
     }
 
+    if(error.name === 'TokenExpiredError'){
+      error = new AppError('The token has expire. Please login again',401)
+    }
+
 
     if(process.env.NODE_ENV==='development'){
       if(error.isOperational){
