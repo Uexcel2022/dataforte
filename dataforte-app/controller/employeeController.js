@@ -1,6 +1,7 @@
 import catchAsync from "../utils/catch.js"
 import {Employee} from '../models/employeeModel.js'
 import AppError from "../utils/AppError.js"
+import {ApIFeatures} from "../utils/features.js"
 
 const createEmployee = catchAsync( async (req,resp,next) => {
     const employee = await Employee.create(req.body)
@@ -13,7 +14,9 @@ const createEmployee = catchAsync( async (req,resp,next) => {
 })
 
 const getAllEmployees = catchAsync( async (req,resp,next) => {
-    const employees = await Employee.find();
+    const features = new ApIFeatures(Employee.find(),req.query)
+    .filter().sort().fields().paginition()
+    const employees = await features.query
     resp.status(200).json({
         status: 'success',
         results: employees.length,

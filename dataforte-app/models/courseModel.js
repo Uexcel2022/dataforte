@@ -16,8 +16,8 @@ const courseSchema = new mongoose.Schema({
         trim: true,
         required: [true,'Please provide course category.'],
         enum: {
-           values : ['software development', 'product managment', 'cyber securiy','data analysis'],
-           message: 'course categeries: software, product managment, cyber securiy and data analysis'
+           values : ['software development', 'product managment', 'cyber security','data analysis'],
+           message: 'course categeries: software, product managment, cyber security and data analysis'
         }
     },
 

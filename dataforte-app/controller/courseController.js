@@ -6,7 +6,7 @@ const createCourse = catchAync(async(req,resp,next)=>{
    resp.status(201).json({
       status: 'success',
       data: {
-         course: 'course'
+         course
       }
    })
 });
