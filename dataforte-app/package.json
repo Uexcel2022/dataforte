@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "build": "npm install",
-    "dev": "node --watch server.js",
-    "start": "node server.js"
+    "build": "node dataforte-app/npm install",
+    "dev": "node --watch node dataforte-app/server.js",
+    "start": "node dataforte-app/server.js"
   },
   "keywords": [],
   "author": "uexel",
